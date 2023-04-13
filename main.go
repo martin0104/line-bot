@@ -22,7 +22,6 @@ func main() {
 	// 設置 LINE Bot 的事件處理程序
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
 		log.Println("trigget callback")
-		fmt.Println("trigget callback")
 		events, err := bot.ParseRequest(req)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
@@ -45,7 +44,7 @@ func main() {
 				}
 			} else {
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("這不是加入群組訊息！")).Do(); err != nil {
-					fmt.Println("trigger not join response", events.Type)
+					fmt.Println(event.Type)
 					log.Print(err)
 				}
 			}
