@@ -23,6 +23,7 @@ func main() {
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
 		log.Println("trigget callback")
 		events, err := bot.ParseRequest(req)
+		fmt.Println("got events", events)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
 				w.WriteHeader(400)
