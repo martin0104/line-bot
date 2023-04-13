@@ -34,16 +34,18 @@ func main() {
 		}
 
 		for _, event := range events {
-			log.Println("trigger events")
 			fmt.Println("trigger events")
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
-				log.Println("trigger event response")
 				fmt.Println("trigger event response")
 				// 回覆歡迎訊息給用戶
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
-					log.Println("trigger response")
 					fmt.Println("trigger  response")
+					log.Print(err)
+				}
+			} else {
+				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("這不是加入群組訊息！")).Do(); err != nil {
+					fmt.Println("trigger not join response")
 					log.Print(err)
 				}
 			}
