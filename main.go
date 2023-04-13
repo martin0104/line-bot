@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -35,6 +36,15 @@ func main() {
 		for _, event := range events {
 			fmt.Println("trigger events")
 			groupID := event.Source.GroupID
+			memberIDsRes, err := bot.GetGroupMemberIDs(groupID, "").WithContext(context.Background()).Do()
+			if err != nil {
+				log.Println("get member func err", err)
+			}
+			memberIDs := memberIDsRes.MemberIDs
+			for _, memberID := range memberIDs {
+				fmt.Println("member ID:", memberID)
+			}
+
 			fmt.Println("got group id", groupID)
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
