@@ -23,7 +23,6 @@ func main() {
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
 		log.Println("trigget callback")
 		events, err := bot.ParseRequest(req)
-		fmt.Println("got events", events)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
 				w.WriteHeader(400)
@@ -35,6 +34,8 @@ func main() {
 
 		for _, event := range events {
 			fmt.Println("trigger events")
+			groupID := event.Source.GroupID
+			fmt.Println("got group id", groupID)
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
 				fmt.Println("trigger event response")
