@@ -45,7 +45,7 @@ func main() {
 				}
 			} else {
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("這不是加入群組訊息！")).Do(); err != nil {
-					fmt.Println("trigger not join response")
+					fmt.Println("trigger not join response", events.Type)
 					log.Print(err)
 				}
 			}
