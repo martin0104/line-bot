@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -25,6 +26,16 @@ var groupMap = make(map[string]int)
 // 	b.GetGroupMemberCount(groupID)
 
 // }
+
+func goGetGroupCount(groupID string) {
+	url := "https://api.line.me/v2/bot/group/" + groupID + "/members/count"
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("Authorization", "Bearer {Hvy37MFNxht9BmRRDr++k1HqAP4VH44sgYUjtxbpBM9YlRWX+cEBRsYOKvlkzbrvxOZ376VfsuOSGiQV6KFsk27kOl+jHSdMokY8L4zN/tS7R5Onumwm43n9BX2X6uqlJmu9aLaWtfKa2CSuEo8KjAdB04t89/1O/w1cDnyilFU=}")
+	resp, _ := http.DefaultClient.Do(req)
+	r, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("group member count", r)
+	resp.Body.Close()
+}
 
 func main() {
 
@@ -54,8 +65,8 @@ func main() {
 			fmt.Println("trigger events")
 			groupID := event.Source.GroupID
 			fmt.Println("got group id", groupID)
-			groupCount := bot.GetGroupMemberCount(groupID)
-			fmt.Println("group member count", *groupCount)
+			goGetGroupCount(groupID)
+
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
 				fmt.Println("trigger event response")
