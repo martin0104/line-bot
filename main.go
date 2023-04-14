@@ -12,11 +12,11 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+var groupMap = make(map[string]int)
+
 type GroupCount struct {
 	C int `json:"count" `
 }
-
-var groupMap = make(map[string]int)
 
 func getGroupCount(groupID string) bool {
 	realTimeCount := goGetGroupCount(groupID)
@@ -106,6 +106,10 @@ func main() {
 						switch strings.ToLower(message.Text) {
 						case "/help":
 							if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我可以幫你做很多事")).Do(); err != nil {
+								log.Print(err)
+							}
+						case "/新增活動":
+							if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("請提供活動代碼")).Do(); err != nil {
 								log.Print(err)
 							}
 						default:
