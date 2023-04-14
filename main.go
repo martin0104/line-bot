@@ -33,7 +33,7 @@ var groupMap = make(map[string]int)
 // }
 
 func goGetGroupCount(groupID string) {
-	var gp groupMap
+	var gp GroupCount
 	url := "https://api.line.me/v2/bot/group/" + groupID + "/members/count"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Authorization", "Bearer {Hvy37MFNxht9BmRRDr++k1HqAP4VH44sgYUjtxbpBM9YlRWX+cEBRsYOKvlkzbrvxOZ376VfsuOSGiQV6KFsk27kOl+jHSdMokY8L4zN/tS7R5Onumwm43n9BX2X6uqlJmu9aLaWtfKa2CSuEo8KjAdB04t89/1O/w1cDnyilFU=}")
