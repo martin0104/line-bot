@@ -97,6 +97,22 @@ func main() {
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
 					log.Print(err)
 				}
+			case linebot.EventTypeMessage:
+				switch message := event.Message.(type) {
+				case *linebot.TextMessage:
+					fmt.Println("textMessage")
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+						log.Print(err)
+					}
+				case *linebot.StickerMessage:
+					fmt.Println("stickerMessage")
+					replyMessage := fmt.Sprintf(
+						"sticker id is %s, stickerResourceType is %s", message.StickerID, message.StickerResourceType)
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(replyMessage)).Do(); err != nil {
+						log.Print(err)
+					}
+				}					
+				}
 			default:
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我不懂你的明白！")).Do(); err != nil {
 					log.Print(err)
