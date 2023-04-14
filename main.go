@@ -95,6 +95,7 @@ func main() {
 			switch event.Type {
 			case linebot.EventTypeMemberJoined:
 				fmt.Println("trigger  response")
+				//加入人員清單取得function event.Joined.Members
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
 					log.Print(err)
 				}
