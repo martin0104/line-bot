@@ -111,7 +111,6 @@ func main() {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(replyMessage)).Do(); err != nil {
 						log.Print(err)
 					}
-				}					
 				}
 			default:
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我不懂你的明白！")).Do(); err != nil {
