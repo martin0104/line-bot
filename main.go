@@ -13,7 +13,7 @@ import (
 )
 
 type GroupCount struct {
-	c int
+	c int `json:"count" `
 }
 
 var sm sync.Mutex
