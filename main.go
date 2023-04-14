@@ -44,7 +44,7 @@ func goGetGroupCount(groupID string) {
 	if err != nil {
 		fmt.Println("json err", err)
 	}
-	fmt.Println("group member count", r)
+	fmt.Println("group member count", gp.c)
 	resp.Body.Close()
 }
 
