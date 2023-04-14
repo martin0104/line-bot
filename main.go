@@ -22,10 +22,11 @@ func getGroupCount(groupID string) bool {
 
 	value, isExist := groupMap[groupID]
 	fmt.Println("realTimeCount", realTimeCount)
-	fmt.Println("value", value)
+	fmt.Println("value1", value)
 	if isExist {
 		if realTimeCount > value {
 			groupMap[groupID] = realTimeCount
+			fmt.Println("value2", groupMap[groupID])
 			return true
 		}
 	} else {
@@ -82,8 +83,8 @@ func main() {
 
 			checkMemberAdd := getGroupCount(groupID)
 			if checkMemberAdd {
+				fmt.Println("trigger join member response")
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
-					fmt.Println("trigger join member response")
 					log.Print(err)
 				}
 			}
