@@ -31,7 +31,8 @@ func goGetGroupCount(groupID string) {
 	url := "https://api.line.me/v2/bot/group/" + groupID + "/members/count"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Authorization", "Bearer {Hvy37MFNxht9BmRRDr++k1HqAP4VH44sgYUjtxbpBM9YlRWX+cEBRsYOKvlkzbrvxOZ376VfsuOSGiQV6KFsk27kOl+jHSdMokY8L4zN/tS7R5Onumwm43n9BX2X6uqlJmu9aLaWtfKa2CSuEo8KjAdB04t89/1O/w1cDnyilFU=}")
-	resp, _ := http.DefaultClient.Do(req)
+	client := &http.Client{}
+	resp, _ := client.Do(req)
 	r, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println("group member count", r)
 	resp.Body.Close()
