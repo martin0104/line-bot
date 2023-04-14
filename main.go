@@ -30,6 +30,7 @@ func getGroupCount(groupID string) bool {
 			return true
 		}
 	} else {
+		fmt.Println("not in map and set groupID to map")
 		groupMap[groupID] = realTimeCount
 	}
 	return false
@@ -47,7 +48,7 @@ func goGetGroupCount(groupID string) int {
 	if err != nil {
 		fmt.Println("json err", err)
 	}
-	fmt.Println("group member count", gp.C)
+	// fmt.Println("group member count", gp.C)
 	resp.Body.Close()
 	return gp.C
 }
