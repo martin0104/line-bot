@@ -19,8 +19,10 @@ var groupMap = make(map[string]int)
 
 func getGroupCount(groupID string) bool {
 	realTimeCount := goGetGroupCount(groupID)
-	fmt.Println("realTimeCount", realTimeCount)
+
 	value, isExist := groupMap[groupID]
+	fmt.Println("realTimeCount", realTimeCount)
+	fmt.Println("value", value)
 	if isExist {
 		if realTimeCount > value {
 			return true
