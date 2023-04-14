@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -101,8 +102,21 @@ func main() {
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
 					fmt.Println("textMessage")
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
-						log.Print(err)
+					if strings.HasPrefix(message.Text, "/") {
+						switch message.Text {
+						case "/help":
+							if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我可以幫你做很多事")).Do(); err != nil {
+								log.Print(err)
+							}
+						default:
+							if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("未知指令")).Do(); err != nil {
+								log.Print(err)
+							}
+						}
+					} else {
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+							log.Print(err)
+						}
 					}
 				case *linebot.StickerMessage:
 					fmt.Println("stickerMessage")
