@@ -1,16 +1,33 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+var sm sync.Mutex
+var groupMap = make(map[string]int)
+
+// func getGroupCount(groupID string, b *linebot.Client) bool {
+// 	value, isExist := groupMap[groupID]
+// 	if isExist {
+// 		realTimeCount := b.GetGroupMemberCount(groupID)
+// 		if realTimeCount > value {
+
+// 		}
+
+// 	}
+// 	b.GetGroupMemberCount(groupID)
+
+// }
+
 func main() {
+
 	// 建立 LINE Bot 的實體
 	bot, err := linebot.New(
 		os.Getenv("CHANNEL_SECRET"),
@@ -37,15 +54,8 @@ func main() {
 			fmt.Println("trigger events")
 			groupID := event.Source.GroupID
 			fmt.Println("got group id", groupID)
-			memberIDsRes, err := bot.GetGroupMemberIDs(groupID, "").WithContext(context.Background()).Do()
-			if err != nil {
-				log.Println("get member func err", err)
-			}
-			memberIDs := memberIDsRes.MemberIDs
-			for _, memberID := range memberIDs {
-				fmt.Println("member ID:", memberID)
-			}
-
+			groupCount := bot.GetGroupMemberCount(groupID)
+			fmt.Println("group member count", groupCount)
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
 				fmt.Println("trigger event response")
