@@ -118,7 +118,7 @@ func main() {
 							}
 						}
 					} else {
-						fmt.Printf("message.Mention.Mentionees: %v\n", message.Mention.Mentionees)
+						fmt.Println("userID", event.Source.UserID)
 						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
 							log.Print(err)
 						}
