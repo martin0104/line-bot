@@ -55,7 +55,7 @@ func main() {
 			groupID := event.Source.GroupID
 			fmt.Println("got group id", groupID)
 			groupCount := bot.GetGroupMemberCount(groupID)
-			fmt.Println("group member count", groupCount)
+			fmt.Println("group member count", *groupCount)
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
 				fmt.Println("trigger event response")
