@@ -102,8 +102,8 @@ func main() {
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
 					fmt.Println("textMessage")
-					if strings.HasPrefix(strings.ToLower(message.Text), "/") {
-						switch message.Text {
+					if strings.HasPrefix(message.Text, "/") {
+						switch strings.ToLower(message.Text) {
 						case "/help":
 							if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我可以幫你做很多事")).Do(); err != nil {
 								log.Print(err)
