@@ -29,6 +29,7 @@ func getGroupCount(groupID string) bool {
 			fmt.Println("value2", groupMap[groupID])
 			return true
 		}
+		groupMap[groupID] = realTimeCount
 	} else {
 		fmt.Println("not in map and set groupID to map")
 		groupMap[groupID] = realTimeCount
