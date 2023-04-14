@@ -7,32 +7,30 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sync"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 type GroupCount struct {
-	c int `json:"count" `
+	C int `json:"count" `
 }
 
-var sm sync.Mutex
 var groupMap = make(map[string]int)
 
-// func getGroupCount(groupID string, b *linebot.Client) bool {
-// 	value, isExist := groupMap[groupID]
-// 	if isExist {
-// 		realTimeCount := b.GetGroupMemberCount(groupID)
-// 		if realTimeCount > value {
+func getGroupCount(groupID string) bool {
+	realTimeCount := goGetGroupCount(groupID)
+	value, isExist := groupMap[groupID]
+	if isExist {
+		if realTimeCount > value {
+			return true
+		}
+	} else {
+		groupMap[groupID] = realTimeCount
+	}
+	return false
+}
 
-// 		}
-
-// 	}
-// 	b.GetGroupMemberCount(groupID)
-
-// }
-
-func goGetGroupCount(groupID string) {
+func goGetGroupCount(groupID string) int {
 	var gp GroupCount
 	url := "https://api.line.me/v2/bot/group/" + groupID + "/members/count"
 	req, _ := http.NewRequest("GET", url, nil)
@@ -44,8 +42,9 @@ func goGetGroupCount(groupID string) {
 	if err != nil {
 		fmt.Println("json err", err)
 	}
-	fmt.Println("group member count", gp.c)
+	fmt.Println("group member count", gp.C)
 	resp.Body.Close()
+	return gp.C
 }
 
 func main() {
@@ -76,7 +75,14 @@ func main() {
 			fmt.Println("trigger events")
 			groupID := event.Source.GroupID
 			fmt.Println("got group id", groupID)
-			goGetGroupCount(groupID)
+
+			checkMemberAdd := getGroupCount(groupID)
+			if checkMemberAdd {
+				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
+					fmt.Println("trigger join member response")
+					log.Print(err)
+				}
+			}
 
 			// 判斷是否為加入群組事件
 			if event.Type == linebot.EventTypeJoin {
