@@ -128,9 +128,10 @@ func main() {
 					}
 				}
 			default:
-				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我不懂你的明白！")).Do(); err != nil {
-					log.Print(err)
-				}
+				fmt.Println("unknow event type ", event.Type)
+				// if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("我不懂你的明白！")).Do(); err != nil {
+				// 	log.Print(err)
+				// }
 			}
 		}
 	})
