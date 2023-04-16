@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -12,47 +10,47 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-var groupMap = make(map[string]int)
+// var groupMap = make(map[string]int)
 
-type GroupCount struct {
-	C int `json:"count" `
-}
+// type GroupCount struct {
+// 	C int `json:"count" `
+// }
 
-func getGroupCount(groupID string) bool {
-	realTimeCount := goGetGroupCount(groupID)
-	value, isExist := groupMap[groupID]
-	// fmt.Println("realTimeCount", realTimeCount)
-	// fmt.Println("value1", value)
-	if isExist {
-		if realTimeCount > value {
-			groupMap[groupID] = realTimeCount
-			fmt.Println("value2", groupMap[groupID])
-			return true
-		}
-		groupMap[groupID] = realTimeCount
-	} else {
-		// fmt.Println("not in map and set groupID to map")
-		groupMap[groupID] = realTimeCount
-	}
-	return false
-}
+// func getGroupCount(groupID string) bool {
+// 	realTimeCount := goGetGroupCount(groupID)
+// 	value, isExist := groupMap[groupID]
+// 	// fmt.Println("realTimeCount", realTimeCount)
+// 	// fmt.Println("value1", value)
+// 	if isExist {
+// 		if realTimeCount > value {
+// 			groupMap[groupID] = realTimeCount
+// 			fmt.Println("value2", groupMap[groupID])
+// 			return true
+// 		}
+// 		groupMap[groupID] = realTimeCount
+// 	} else {
+// 		// fmt.Println("not in map and set groupID to map")
+// 		groupMap[groupID] = realTimeCount
+// 	}
+// 	return false
+// }
 
-func goGetGroupCount(groupID string) int {
-	var gp GroupCount
-	url := "https://api.line.me/v2/bot/group/" + groupID + "/members/count"
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Add("Authorization", "Bearer {Hvy37MFNxht9BmRRDr++k1HqAP4VH44sgYUjtxbpBM9YlRWX+cEBRsYOKvlkzbrvxOZ376VfsuOSGiQV6KFsk27kOl+jHSdMokY8L4zN/tS7R5Onumwm43n9BX2X6uqlJmu9aLaWtfKa2CSuEo8KjAdB04t89/1O/w1cDnyilFU=}")
-	client := &http.Client{}
-	resp, _ := client.Do(req)
-	r, _ := ioutil.ReadAll(resp.Body)
-	err := json.Unmarshal(r, &gp)
-	if err != nil {
-		fmt.Println("json err", err)
-	}
-	// fmt.Println("group member count", gp.C)
-	resp.Body.Close()
-	return gp.C
-}
+// func goGetGroupCount(groupID string) int {
+// 	var gp GroupCount
+// 	url := "https://api.line.me/v2/bot/group/" + groupID + "/members/count"
+// 	req, _ := http.NewRequest("GET", url, nil)
+// 	req.Header.Add("Authorization", "Bearer {Hvy37MFNxht9BmRRDr++k1HqAP4VH44sgYUjtxbpBM9YlRWX+cEBRsYOKvlkzbrvxOZ376VfsuOSGiQV6KFsk27kOl+jHSdMokY8L4zN/tS7R5Onumwm43n9BX2X6uqlJmu9aLaWtfKa2CSuEo8KjAdB04t89/1O/w1cDnyilFU=}")
+// 	client := &http.Client{}
+// 	resp, _ := client.Do(req)
+// 	r, _ := ioutil.ReadAll(resp.Body)
+// 	err := json.Unmarshal(r, &gp)
+// 	if err != nil {
+// 		fmt.Println("json err", err)
+// 	}
+// 	// fmt.Println("group member count", gp.C)
+// 	resp.Body.Close()
+// 	return gp.C
+// }
 
 func main() {
 
