@@ -20,10 +20,9 @@ type GroupCount struct {
 
 func getGroupCount(groupID string) bool {
 	realTimeCount := goGetGroupCount(groupID)
-
 	value, isExist := groupMap[groupID]
-	fmt.Println("realTimeCount", realTimeCount)
-	fmt.Println("value1", value)
+	// fmt.Println("realTimeCount", realTimeCount)
+	// fmt.Println("value1", value)
 	if isExist {
 		if realTimeCount > value {
 			groupMap[groupID] = realTimeCount
@@ -32,7 +31,7 @@ func getGroupCount(groupID string) bool {
 		}
 		groupMap[groupID] = realTimeCount
 	} else {
-		fmt.Println("not in map and set groupID to map")
+		// fmt.Println("not in map and set groupID to map")
 		groupMap[groupID] = realTimeCount
 	}
 	return false
@@ -68,7 +67,7 @@ func main() {
 
 	// 設置 LINE Bot 的事件處理程序
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
-		log.Println("trigget callback")
+		// log.Println("trigget callback")
 		events, err := bot.ParseRequest(req)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
@@ -94,7 +93,7 @@ func main() {
 
 			switch event.Type {
 			case linebot.EventTypeMemberJoined:
-				fmt.Println("trigger  response")
+				fmt.Println("trigger join member response 2")
 				//加入人員清單取得function event.Joined.Members
 				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
 					log.Print(err)
@@ -102,7 +101,6 @@ func main() {
 			case linebot.EventTypeMessage:
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
-					fmt.Println("textMessage")
 					if strings.HasPrefix(message.Text, "/") {
 						switch strings.ToLower(message.Text) {
 						case "/help":
@@ -125,7 +123,6 @@ func main() {
 						}
 					}
 				case *linebot.StickerMessage:
-					fmt.Println("stickerMessage")
 					replyMessage := fmt.Sprintf(
 						"sticker id is %s, stickerResourceType is %s", message.StickerID, message.StickerResourceType)
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(replyMessage)).Do(); err != nil {
