@@ -83,13 +83,13 @@ func main() {
 			groupID := event.Source.GroupID
 			fmt.Println("got group id", groupID)
 
-			checkMemberAdd := getGroupCount(groupID)
-			if checkMemberAdd {
-				fmt.Println("trigger join member response")
-				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
-					log.Print(err)
-				}
-			}
+			// checkMemberAdd := getGroupCount(groupID)
+			// if checkMemberAdd {
+			// 	fmt.Println("trigger join member response")
+			// 	if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
+			// 		log.Print(err)
+			// 	}
+			// }
 
 			switch event.Type {
 			case linebot.EventTypeMemberJoined:
