@@ -91,11 +91,13 @@ func main() {
 			// 	}
 			// }
 
+			歡迎各位老師/媽媽加入波雀絲小姐社團❤️這邊可以許願想買的教具或其他商品。(需要發票跟收據，也可以私訊)\n🌟目前記事本也有商品持續增加中，歡迎參觀選購。
+
 			switch event.Type {
 			case linebot.EventTypeMemberJoined:
 				fmt.Println("trigger join member response 2")
 				//加入人員清單取得function event.Joined.Members
-				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎加入群組！")).Do(); err != nil {
+				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎各位老師/媽媽加入波雀絲小姐社團❤️這邊可以許願想買的教具或其他商品。(需要發票跟收據，也可以私訊)\n🌟目前記事本也有商品持續增加中，歡迎參觀選購。")).Do(); err != nil {
 					log.Print(err)
 				}
 			case linebot.EventTypeMessage:
