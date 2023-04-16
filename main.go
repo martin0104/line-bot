@@ -118,9 +118,9 @@ func main() {
 						}
 					} else {
 						fmt.Println("userID", event.Source.UserID)
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
-							log.Print(err)
-						}
+						//if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+						//	log.Print(err)
+						//}
 					}
 				case *linebot.StickerMessage:
 					replyMessage := fmt.Sprintf(
