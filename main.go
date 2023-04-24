@@ -109,7 +109,7 @@ func main() {
 							if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("請提供活動代碼")).Do(); err != nil {
 								log.Print(err)
 							}
-						case "/joinGroup":
+						case "/joingroup":
 							if _, err := bot.PushMessage("C6f08f3f4dad5b138fe306b17697ce14d", linebot.NewTextMessage("歡迎各位老師/爸爸媽媽加入波雀絲小姐社團❤️這邊可以許願想買的教具或其他商品。(需要發票跟收據，也可以私訊)\n🌟目前記事本也有商品持續增加中，歡迎參觀選購。")).Do(); err != nil {
 								log.Print(err)
 							}
