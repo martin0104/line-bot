@@ -6,8 +6,17 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/line/line-bot-sdk-go/linebot"
+)
+
+var (
+	ch      = make(chan bool)
+	wg      sync.WaitGroup
+	mu      sync.Mutex
+	working bool = true
 )
 
 // var groupMap = make(map[string]int)
@@ -52,8 +61,26 @@ import (
 // 	return gp.C
 // }
 
+func worker() {
+	for {
+		select {
+		case val := <-ch:
+			if val {
+				mu.Lock()
+				working = false
+				mu.Unlock()
+				time.Sleep(300 * time.Second)
+				mu.Lock()
+				working = true
+				mu.Unlock()
+			}
+		}
+	}
+}
+
 func main() {
 
+	go worker() // 启动 worker 的 goroutine
 	// 建立 LINE Bot 的實體
 	bot, err := linebot.New(
 		os.Getenv("CHANNEL_SECRET"),
@@ -93,9 +120,14 @@ func main() {
 			case linebot.EventTypeMemberJoined:
 				fmt.Println("trigger join member response 2")
 				//加入人員清單取得function event.Joined.Members
-				if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎各位老師/爸爸媽媽加入波雀絲小姐社團❤️這邊可以許願想買的教具或其他商品。(需要發票跟收據，也可以私訊)\n🌟目前記事本也有商品持續增加中，歡迎參觀選購。")).Do(); err != nil {
-					log.Print(err)
+				mu.Lock()
+				if working {
+					ch <- true
+					if _, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("歡迎各位老師/爸爸媽媽加入波雀絲小姐社團❤️這邊可以許願想買的教具或其他商品。(需要發票跟收據，也可以私訊)\n🌟目前記事本也有商品持續增加中，歡迎參觀選購。")).Do(); err != nil {
+						log.Print(err)
+					}
 				}
+				mu.Unlock()
 			case linebot.EventTypeMessage:
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
